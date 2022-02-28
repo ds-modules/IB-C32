@@ -67,9 +67,9 @@ def forces_plot():
 # –––––––––––––––––––––––––––––
 
 cleaner = lambda x: x.replace("Sp", "Spring ")
-class_data = Table.from_df(pd.read_excel("Data/gecko.xlsx", sheet_name="Class"))
+class_data = Table.from_df(pd.read_excel("https://tinyurl.com/geck-data", sheet_name="Class"))
 class_data["Collected"] = class_data.apply(cleaner, "Collected")
-section_data = Table.from_df(pd.read_excel("Data/gecko.xlsx", sheet_name="Sections"))
+section_data = Table.from_df(pd.read_excel("https://tinyurl.com/geck-data", sheet_name="Sections"))
 
 
 def show_gecko_tables():
