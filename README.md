@@ -1,5 +1,13 @@
 # IB-C32
-### Noebook Sections for IB-C32 at University of California, Berkeley
+### Notebook Sections for IB-C32 at University of California, Berkeley
 > by DSUS Modules Student Team Spring 2022 
 
-[link to datahub](http://datahub.berkeley.edu/user-redirect/interact?account=ds-modules&repo=IB-C32&branch=main&path=Final/Gecko_Inspired_Adhesive_Analysis.ipynb)
+Professor: Robert Fall
+
+GSI: Ali Bhatti
+
+Developers: Jonathan Ferrari and Salvador Ramirez Jr
+
+The goal of this module is for students to gain an introduction to data science as well as explore gecko data itself collected in class.
+
+[Link to datahub](http://datahub.berkeley.edu/user-redirect/interact?account=ds-modules&repo=IB-C32&branch=main&path=Final/Gecko_Inspired_Adhesive_Analysis.ipynb)
