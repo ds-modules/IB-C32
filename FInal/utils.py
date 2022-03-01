@@ -70,8 +70,25 @@ cleaner = lambda x: x.replace("Sp", "Spring ")
 class_data = Table.from_df(pd.read_excel("https://tinyurl.com/geck-data", sheet_name="Class"))
 class_data["Collected"] = class_data.apply(cleaner, "Collected")
 section_data = Table.from_df(pd.read_excel("https://tinyurl.com/geck-data", sheet_name="Sections"))
+file = widgets.FileUpload(accept="*.csv", multiple=False)
 
-
+def how_to_upload():
+    show("Use the button `Upload` below to choose your data from your computer to upload into this notebook",
+             "After uploading, ***run this cell one more time*** to save and display your data!",
+            "It will be saved under the name `my_data`",
+            "**If for any reason you messed up, add the following line to some new cell and run it,**",
+            "then ensure you delete the line before running the cell again**",
+            "<pre>redo = True</pre>")
+def file_to_csv(file):
+    if not file.value:
+        how_to_upload()
+        display(file)
+    else:
+        import io
+        upload = list(file.value.items())[0][1]['content']
+        content = Table.from_df(pd.read_csv(io.BytesIO(upload), sep=None, engine='python'))
+        return content
+    
 def show_gecko_tables():
     show("""
 _**NOTE:**_ 
@@ -133,3 +150,51 @@ def show_rows(self):
         self.show(Rows)
         
 Table.show_interact = show_rows
+
+# –––––––––––––––––––––––––––
+#| For Visualization Section |
+# –––––––––––––––––––––––––––
+
+def visualize(data):
+    @interact(Kind = widgets.Dropdown(options=["Scatter Plot", "Histogram"], value = None))
+    def plot_kind(Kind):
+        cols = widgets.Dropdown(options=data.labels)
+        if Kind == "Scatter Plot":
+            show(">***NOTE:*** If you chose `Color By` to be a column with numeric data, " \
+                 + "that will **disable the `Side Graph`** parameter")
+            @interact(x = widgets.Dropdown(options=data.labels, value = None, 
+                                           description = "X-Axis"), 
+                      y = widgets.Dropdown(options=data.labels, value = None, 
+                                           description = "Y-Axis"),
+                      color = widgets.Dropdown(options= [None] + list(data.labels), value = None, 
+                                               description = "Color By"),
+                     marginal = widgets.Dropdown(options = [None, 'rug', 'box', 'violin','histogram'], 
+                                                 value = 'histogram', description = "Side Graph"))
+            def scatter_helper(x, y, marginal, color):
+                if color != None and data[color].dtype == float:
+                    marginal = None
+                if (x != None and y != None):
+                    px.scatter(data_frame = data.to_df(), 
+                               x = x, y = y, 
+                               color = color,
+                               color_continuous_scale='viridis', 
+                               template = 'seaborn',
+                               marginal_x = marginal, marginal_y = marginal,
+                               title = f"{x} vs. {y}").show()
+        if Kind == "Histogram":
+            show("Using the `Color By` variable here leads to some odd displays",
+                 "They aren't really usefull, but we've the option to se it in case you are curious",
+                 "The default `None` gives a solid color")
+            @interact(x = widgets.Dropdown(options=data.labels, value = None,
+                                          description = "X-Axis"),
+                      color = widgets.Dropdown(options=[None] + list(data.labels), value = None,
+                                              description = "Color By"),
+                     marginal = widgets.Dropdown(options = [None, 'rug', 'box', 'violin','histogram'], 
+                                                 value = 'box', description = "Top Graph"))
+            def hist_helper(x, marginal, color):
+                if (x != None):
+                    px.histogram(data_frame = data.to_df(), 
+                               x = x,
+                               color = color, template = "seaborn",
+                                marginal = marginal,
+                                title = f"Distribution of {x}", text_auto=True).show()
