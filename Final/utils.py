@@ -197,4 +197,4 @@ def visualize(data):
                                x = x,
                                color = color, template = "seaborn",
                                 marginal = marginal,
-                                title = f"Distribution of {x}", text_auto=True).show()
+                                title = f"Distribution of {x}").show()
