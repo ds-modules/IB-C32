@@ -1,12 +1,13 @@
 # IB-C32
 ### Notebook Sections for IB-C32 at University of California, Berkeley
-> by DSUS Modules Student Team Spring 2022 
+> by DSUS Modules Student Team Spring 2023
 
 Professor: Robert Fall
 
 GSI: Ali Bhatti
 
-Developers: [Jonathan Ferrari](https://jonathanferrari.com) and Salvador Ramirez Jr
+Developer Lead: [Jonathan Ferrari](https://jonathanferrari.com)
+
 
 The goal of this module is for students to gain an introduction to data science as well as explore gecko data itself collected in class.
 
