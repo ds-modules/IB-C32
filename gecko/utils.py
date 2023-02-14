@@ -4,10 +4,90 @@ from ipywidgets import *
 import pandas as pd
 import numpy as np
 import plotly.express as px;
-import scipy.constants as constant
+import scipy.constants as constant 
 import math
 from ipywidgets import *
+import re
+import json
 
+def get_data():
+    df = fetch_data()
+    df = add_section_column(df)
+    return df
+
+
+def fetch_data():
+    """
+    Fetches data via google sheets from a fixed url.
+    
+    Parameters
+    ----------
+    
+    None
+    
+    Returns
+    -------
+    
+    data : pd.DataFrame
+        The data from the google sheet
+    """
+    url = "https://docs.google.com/spreadsheets/d/1RH96Rjr_bC5bcpd3DqY5shsuEMtxlk4NN39pUYrGeNA/edit#gid=0"
+    csv_url = re.sub("/edit#gid=", "/export?format=csv&gid=", url)
+    data = pd.read_csv(csv_url)
+    return data
+
+
+def add_section_column(data):
+    """
+    Adds a column to the data that contains the section number.
+    
+    Parameters
+    ----------
+    
+    data : pd.DataFrame
+        The data from the google sheet
+    
+    Returns
+    -------
+    
+    data : pd.DataFrame
+        The data with the section column added
+    """
+    section_dict = read("teams")
+    section_from_team = lambda team: section_dict[str(team)]
+    data["Section"] = data["Team"].apply(section_from_team)
+    data = data[["Team", "Section", "Mass", "Angle", "ShearForce", "AdhesiveForce"]]
+    return data
+
+def read(fp: str, full_fp: bool = False) -> dict:
+    """
+    ### Creates a dictionary of the given JSON file
+
+    Parameters
+    ----------
+    fp : `str`
+        The file path of the JSON file
+        such that file is named `data/json/<fp>.json`
+
+    full_fp : `bool`
+        Whether the filepath is the full filepath or not
+
+    Returns
+    -------
+    `dict`
+        A dictionary of the JSON file
+
+    Examples
+    --------
+    >>> read("example.json")
+    {'a': 1, 'b': 2, 'c': 3}
+    """
+    if not full_fp:
+        fp = f"{fp}.json"
+    return json.load(open(fp, "r"))
+
+# All code below this line was written in Spring 22
+# _____________________________________________________________________________
 def show(*args, tags = []):
     """Pretty Display"""
     assert (tags == []) or (type(tags[0]) == str), "tags must contain strings"
