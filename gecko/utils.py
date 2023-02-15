@@ -2,14 +2,13 @@ from IPython.display import *
 from ipywidgets import *
 import pandas as pd
 import plotly.express as px;
-from ipywidgets import *
 import re
 import json
 from typing import *
 
 class Instructions:
     
-    def index(fn):
+    def index(fn) -> Callable:
         if fn == "enter_team_number":
             return Instructions.team
         elif fn == "show_data":
@@ -19,23 +18,23 @@ class Instructions:
         else:
             print("No instructions found for this function.")
     
-    def team():
+    def team() -> None:
         show("Select a team number to get data for.", tags=["h2"])
         show("You can also use the arrow keys to change the team number, or simply type it into the box.", tags=["blockquote", "h3"])
 
-    def data():
+    def data() -> None:
         show("Use the dropdown menu to select a group to view.", tags=["h2"])
         show("Then, use the slider to determine how many rows to show.", tags=["h3"])
         show("Note: You can also click the number next to the slider to change the number of rows.", tags=["blockquote", "h3"])
         show("Make sure you take a screenshot of the \"My Team\" table to submit!", tags=["h1", "center"])
     
-    def plot():
+    def plot() -> None:
         show("Use the dropdown menu to select a column to plot on the x-axis and y-axis.", tags=["h2"])
         show("Then, use the checkbox to toggle trend lines.", tags=["h3"])
         show("Make sure to save the graph as an image to submit!", tags=["h1", "center"])
         show("To do that, hover over the top right corner of the graph and click the camera button!", tags=["h2", "center"])
         
-def show_instructions(func):
+def show_instructions(func : Callable) -> Callable:
     fn = name(func)
     instruct = Instructions.index(fn)
     def inner(*args, **kwargs):
@@ -43,7 +42,7 @@ def show_instructions(func):
         return func(*args, **kwargs)
     return inner
 
-def name(func):
+def name(func : Callable) -> str:
     assert isinstance(func, Callable), "Input must be callable."
     return func.__name__
 
@@ -74,7 +73,7 @@ def read(fp: str, full_fp: bool = False) -> dict:
         fp = f"{fp}.json"
     return json.load(open(fp, "r"))
 
-def show(*args, tags = []):
+def show(*args, tags = []) -> None:
     """Pretty Display"""
     assert (tags == []) or (type(tags[0]) == str), "tags must contain strings"
     for i in args:
@@ -198,12 +197,12 @@ def get_class_data(team : int, section : int) -> pd.DataFrame:
     return df
     
 @show_instructions    
-def enter_team_number():
+def enter_team_number() -> widget:
     w = BoundedIntText(value = None, min = 1, max = 35, step = 1, description = "Team:")
     display(w)
     return w
 
-def get_info(w : widgets.widget_int.BoundedIntText) -> Tuple[int, int]:
+def get_info(w : widget) -> Tuple[int, int]:
     """
     Retrieves the team and section number from the widget.
     
@@ -241,7 +240,7 @@ def show_data(data : pd.DataFrame) -> None:
             show("Rest of the Class Data", tags=["h2"])
         return df.head(rows)
  
-def get_tables(widget) -> Tuple[int, int, pd.DataFrame]:
+def get_tables(widget : widget) -> Tuple[int, int, pd.DataFrame]:
     """
     Gets the team number, section number, and data for the given widget.
     
@@ -261,7 +260,7 @@ def get_tables(widget) -> Tuple[int, int, pd.DataFrame]:
     return (team, section, data)   
 
 @show_instructions
-def plot_data(df):
+def plot_data(df) -> None:
     cols = ["Mass (g)", "Angle (degrees)", "Shear Force (N)", "Adhesive Force (N)"]
     @interact(x = Dropdown(value = "Mass (g)", options = cols),
               y = Dropdown(value = "Angle (degrees)", options = cols),
@@ -273,3 +272,6 @@ def plot_data(df):
             return px.scatter(df, x=x, y=y, color = "Group", template = "seaborn", title = title, width = 800, height = 800, trendline = "ols")
         else:
             return px.scatter(df, x=x, y=y, color = "Group", template = "seaborn", title = title, width = 800, height = 800)
+
+def feedback_button() -> HTML:
+    return HTML(filename="button.html")
