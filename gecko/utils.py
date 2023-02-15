@@ -195,7 +195,7 @@ def show_data(data : pd.DataFrame) -> None:
     show("Then, use the slider to determine how many rows to show.", tags=["h3"])
     show("Note: You can also click the number next to the slider to change the number of rows.", tags=["blockquote", "h3"])
     show("Make sure you take a screenshot of the \"My Team\" table to submit!", tags=["h1", "center"])
-    @interact(group = Dropdown(value = "My Team", options = data["Group"].unique()),
+    @interact(group = Dropdown(value = "My Team", options = ["My Team", "My Section", "Rest of Class"]),
               rows = IntSlider(value = 10, min = 1, max = 60, step = 1),
               section = fixed(section),
               team = fixed(team))
