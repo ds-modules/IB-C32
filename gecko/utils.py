@@ -33,6 +33,7 @@ class Instructions:
         show("Then, use the checkbox to toggle trend lines.", tags=["h3"])
         show("Make sure to save the graph as an image to submit!", tags=["h1", "center"])
         show("To do that, hover over the top right corner of the graph and click the camera button!", tags=["h2", "center"])
+        show("<b>Tip:</b> <i>If this is showing up with a scrollbar, you can click to the left of this graph to show the full plot!</i>", tags=["h3", "blockquote"])
         
 def show_instructions(func : Callable) -> Callable:
     fn = name(func)
