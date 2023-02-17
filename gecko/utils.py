@@ -271,8 +271,8 @@ def get_tables(widget : widget) -> Tuple[int, int, pd.DataFrame]:
     data = get_class_data(team, section)
     return (team, section, data)   
 
-@show_instructions
-def plot_data(df) -> None:
+
+def explore_data(df) -> None:
     cols = ["Mass (g)", "Angle (degrees)", "Shear Force (N)", "Adhesive Force (N)"]
     @interact(x = Dropdown(value = "Mass (g)", options = cols),
               y = Dropdown(value = "Angle (degrees)", options = cols),
@@ -284,6 +284,10 @@ def plot_data(df) -> None:
             return px.scatter(df, x=x, y=y, color = "Group", template = "seaborn", title = title, width = 800, height = 800, trendline = "ols")
         else:
             return px.scatter(df, x=x, y=y, color = "Group", template = "seaborn", title = title, width = 800, height = 800)
+
+@show_instructions
+def plot_data(df) -> None:
+    return px.scatter(df, x="Mass (g)", y="Angle (degrees)", color = "Group", template = "seaborn", title = "Mass vs Angle", width = 800, height = 800)
 
 def feedback_button() -> None:
     button = '''
