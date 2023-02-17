@@ -23,17 +23,24 @@ class Instructions:
         show("You can also use the arrow keys to change the team number, or simply type it into the box.", tags=["blockquote", "h3"])
 
     def data() -> None:
-        show("Use the dropdown menu to select a group to view.", tags=["h2"])
-        show("Then, use the slider to determine how many rows to show.", tags=["h3"])
-        show("Note: You can also click the number next to the slider to change the number of rows.", tags=["blockquote", "h3"])
-        show("Make sure you take a screenshot of the \"My Team\" table to submit!", tags=["h1", "center"])
+        show("Make sure you take a screenshot of the \"My Team\" (below table) table to submit with your report!", tags=["h1", "center"])
+        explain = [
+            "Notice that <code>group</code> has a dropdown menu that includes \"My Team\", \"My Section\", and \"Entire Class\".",
+            "Data from experiments can be really noisy, \
+            and it can be hard to see the trends that you're interested in without a lot of data points.",
+            "For the next part of the notebook, \
+            we're going to use the entire class's data to determine if the GSAs we synthesized function similarly to the toes of live geckos.",
+            "Feel free to toggle the <code>group</code> menu to see data from other teams in your section and the rest of the class!"
+            ]
+        show(explain)
     
     def plot() -> None:
-        show("Use the dropdown menu to select a column to plot on the x-axis and y-axis.", tags=["h2"])
-        show("Then, use the checkbox to toggle trend lines.", tags=["h3"])
-        show("Make sure to save the graph as an image to submit!", tags=["h1", "center"])
-        show("To do that, hover over the top right corner of the graph and click the camera button!", tags=["h2", "center"])
-        show("<b>Tip:</b> <i>If this is showing up with a scrollbar, you can click to the left of this graph to show the full plot!</i>", tags=["h3", "blockquote"])
+        mapper = {
+            "Make sure to save the graph as an image to submit!" : ["h1", "center"],
+            "To do that, hover over the top right corner of the graph and click the camera button!" : ["h2", "center"]
+        }
+        show(map = mapper)
+        
         
 def show_instructions(func : Callable) -> Callable:
     fn = name(func)
@@ -74,9 +81,13 @@ def read(fp: str, full_fp: bool = False) -> dict:
         fp = f"{fp}.json"
     return json.load(open(fp, "r"))
 
-def show(*args, tags = []) -> None:
+def show(*args, tags : list = [], map : dict = None) -> None:
     """Pretty Display"""
-    assert (tags == []) or (type(tags[0]) == str), "tags must contain strings"
+    assert (tags == []) or (isinstance(tags[0], str)), "tags must contain strings"
+    if map:
+        for s, tags in map.items():
+            show(s, tags = tags)
+        return
     for i in args:
         if type(i) != str:
             i = str(i)
