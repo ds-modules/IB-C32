@@ -287,7 +287,26 @@ def explore_data(df) -> None:
 
 @show_instructions
 def plot_data(df) -> None:
-    return px.scatter(df, x="Mass (g)", y="Angle (degrees)", color = "Group", template = "seaborn", title = "Mass vs Angle", width = 800, height = 800)
+    shear = r"\text{Shear Force} \ (F_{\parallel})"
+    adhesive = r"\text{Adhesive Force} \ (F_{\perp})"
+    vs =  r"\ \text{vs.} \ "
+    main = fr"$ {shear}{vs}{adhesive} $"
+
+    fig = px.scatter(
+            df,
+            x = "Shear Force (N)",
+            y = "Adhesive Force (N)",
+            title = main,
+            template = "seaborn",
+            width = 800,
+            height = 600,
+            labels = {
+                "Shear Force (N)" : f"$ {shear} $",
+                "Adhesive Force (N)" : f"$ {adhesive} $"
+                
+            }
+        )
+    return fig
 
 def feedback_button() -> None:
     button = '''
