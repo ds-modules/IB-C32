@@ -35,7 +35,8 @@ class Instructions:
             we're going to use the entire class's data to determine if the GSAs we synthesized function similarly to the toes of live geckos.",
             "Feel free to toggle the <code>group</code> menu to see data from other teams in your section and the rest of the class!"
         ]
-        show(explain)
+        for text in explain:
+            show(text)
 
     def plot() -> None:
         mapper = {
