@@ -1,7 +1,7 @@
 import pandas as pd, numpy as np, seaborn as sns, matplotlib.pyplot as plt
 from datascience import *
 from IPython.display import *
-from ipywidgets import *
+import ipywidgets as widgets
 
 
 def clean(tbl):
@@ -23,10 +23,11 @@ def strip(df):
     return df
 
 def play_video(name : str) -> Video:
-    mapper = {"sheets" : "sheets_csv.mov", 
-              "upload" : "upload_csv.mov",
-              "rename" : "rename_csv.mov",}
-    Video(mapper[name], width=600, height=600)
+    if name == "sheet":
+        h = 400
+    else:
+        h = 600
+    return Video(f"videos/{name}_csv.mov", width=600, height=h, html_attributes="loop autoplay")
 
 
 def feedback_button() -> None:
