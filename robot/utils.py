@@ -8,7 +8,15 @@ def clean(tbl):
     df = strip(tbl.to_df())
     # sort to forward fill with related values
     # currently sorting on index 1, but whichever has the highest correlation should be sorted
-    result = df.sort_values(by=df.columns[1]).fillna(method="ffill").astype("float").astype({"Team Number" : "int"}).sort_values(by=df.columns[0]).iloc[:, :6]
+    result = (df
+              .sort_values(by=df.columns[1])
+              .fillna(method="ffill")
+              .astype("float")
+              .astype({"Team Number" : "int"})
+              .sort_values(by=df.columns[0])
+              .iloc[:, :5])
+    col_names = ["Team Number", "Maximum Running Speed", "Gap Crossing Speed", "Maximum Gap Distance Crossed", "Washers"]
+    result.columns = col_names
     to_data_sci = Table.from_df(result)
     return to_data_sci
     
@@ -19,7 +27,9 @@ def strip(df):
         if df[col].dtype == "object":
             df[col] = df[col].str.replace(pat, "", regex = True)
             empty = df[col] == ""
+            period = df[col] == "."
             df.loc[empty, col] = np.nan
+            df.loc[period, col] = np.nan
     return df
 
 def play_video(name : str) -> Video:
