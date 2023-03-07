@@ -228,7 +228,7 @@ def get_class_data(team: int, section: int) -> pd.DataFrame:
 
 @show_instructions
 def enter_team_number() -> widget:
-    w = BoundedIntText(value=None, min=1, max=35, step=1, description="Team:")
+    w = BoundedIntText(value=None, min=1, max=36, step=1, description="Team:")
     display(w)
     return w
 
