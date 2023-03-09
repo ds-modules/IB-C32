@@ -1,6 +1,6 @@
 # Introduction Notebook
 
-Open the notebook on datahub : [![Repo on DataHub](https://img.shields.io/badge/Launch-UCB%20Datahub-blue.svg)](https://data8.datahub.berkeley.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fjonathanferrari%2Fdata-lessons&urlpath=tree%2Fdata-lessons%2Fhypothesis-testing%2Fhypothesis_testing.ipynb&branch=main)
+Open the notebook on datahub : [![Repo on DataHub](https://img.shields.io/badge/Launch-UCB%20Datahub-blue.svg)](https://datahub.berkeley.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fds-modules%2FIB-C32&urlpath=tree%2FIB-C32%2Fintro%2Fintro.ipynb&branch=main))
 
 This notebook includes instructions on the following:
 
